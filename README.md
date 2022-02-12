@@ -1,2 +1,2 @@
-# applications-logger
+# Applications Logger
 Estarta Applications Logger task

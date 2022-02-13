@@ -1,20 +1,22 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {ButtonBase, TextField} from "@mui/material";
+import {ButtonBase, IconButton, TextField} from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {Autocomplete, DateTimePicker, LocalizationProvider} from "@mui/lab";
 import {ActionTypesEnum, ApplicationsTypesEnum} from "../../../../../enums";
+import ClearIcon from '@mui/icons-material/Clear';
 import './ApplicationsLoggerTableFilter.style.scss';
 
 export const ApplicationsLoggerTableFilter = ({onFilterChangeHandler}) => {
-    const [localApplicationsFilter, setLocalApplicationsFilter] = useState({
+    const initFilterState = {
         employeeName: null,
         actionType: null,
         applicationType: null,
         fromDate: null,
         toDate: null,
         applicationId: null
-    });
+    };
+    const [localApplicationsFilter, setLocalApplicationsFilter] = useState(initFilterState);
 
     const onFilterSendHandler = () => {
         onFilterChangeHandler({
@@ -52,6 +54,11 @@ export const ApplicationsLoggerTableFilter = ({onFilterChangeHandler}) => {
                 isDate: false,
             },
         });
+    };
+
+    const onFilterClearHandler = () => {
+        setLocalApplicationsFilter(initFilterState);
+        onFilterChangeHandler({});
     };
 
     return (
@@ -147,10 +154,15 @@ export const ApplicationsLoggerTableFilter = ({onFilterChangeHandler}) => {
                     }}
                 />
             </div>
-            <div className="filter-item button-action">
-                <ButtonBase onClick={onFilterSendHandler}>
-                    Search Logger
-                </ButtonBase>
+            <div className="filter-actions-wrapper">
+                <div className="search-button-wrapper">
+                    <ButtonBase onClick={onFilterSendHandler}>
+                        Search Logger
+                    </ButtonBase>
+                </div>
+                <IconButton onClick={onFilterClearHandler}>
+                    <ClearIcon/>
+                </IconButton>
             </div>
         </div>
     );

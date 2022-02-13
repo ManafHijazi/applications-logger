@@ -84,7 +84,10 @@ const ApplicationsLoggerView = () => {
 
     return (
         <div className="applications-logger-wrapper view-wrapper">
-            <ApplicationsLoggerTableFilter onFilterChangeHandler={onFilterChangeHandler}/>
+            <ApplicationsLoggerTableFilter
+                applicationsFilter={applicationsFilter}
+                onFilterChangeHandler={onFilterChangeHandler}
+            />
             <ApplicationsLoggerTable
                 data={applications.result}
                 totalCount={applications.totalCount}

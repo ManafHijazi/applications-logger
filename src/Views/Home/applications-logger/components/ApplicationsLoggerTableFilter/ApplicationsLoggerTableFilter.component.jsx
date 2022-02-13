@@ -7,7 +7,7 @@ import {ActionTypesEnum, ApplicationsTypesEnum} from "../../../../../enums";
 import ClearIcon from '@mui/icons-material/Clear';
 import './ApplicationsLoggerTableFilter.style.scss';
 
-export const ApplicationsLoggerTableFilter = ({onFilterChangeHandler}) => {
+export const ApplicationsLoggerTableFilter = ({onFilterChangeHandler, applicationsFilter}) => {
     const initFilterState = {
         employeeName: null,
         actionType: null,
@@ -160,9 +160,11 @@ export const ApplicationsLoggerTableFilter = ({onFilterChangeHandler}) => {
                         Search Logger
                     </ButtonBase>
                 </div>
-                <IconButton onClick={onFilterClearHandler}>
-                    <ClearIcon/>
-                </IconButton>
+                {applicationsFilter && Object.values(applicationsFilter).length > 0 &&
+                    <IconButton onClick={onFilterClearHandler}>
+                        <ClearIcon/>
+                    </IconButton>
+                }
             </div>
         </div>
     );
@@ -170,5 +172,6 @@ export const ApplicationsLoggerTableFilter = ({onFilterChangeHandler}) => {
 
 ApplicationsLoggerTableFilter.propTypes = {
     onFilterChangeHandler: PropTypes.func.isRequired,
+    applicationsFilter: PropTypes.instanceOf(Object).isRequired,
 };
 

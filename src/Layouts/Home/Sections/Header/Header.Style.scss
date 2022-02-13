@@ -1,0 +1,29 @@
+@import '../../../../Assets/Styles/Helpers/Helpers.Style.scss';
+
+.header-wrapper {
+  width: 100%;
+  padding: 1.5rem;
+  position: fixed;
+  top: 0;
+
+  hr {
+    margin-top: 1rem;
+    border: 1px solid $c-gray-lighter;
+  }
+
+  .MuiLink-root {
+    color: #1a4f9f;
+  }
+
+  .MuiTypography-root {
+    font-size: 15px;
+  }
+
+  .MuiSvgIcon-root {
+    color: $c-gray;
+  }
+
+  .MuiBreadcrumbs-separator {
+    margin: 0;
+  }
+}

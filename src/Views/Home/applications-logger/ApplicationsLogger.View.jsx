@@ -10,6 +10,10 @@ const ApplicationsLoggerView = () => {
         result: []
     });
 
+    /**
+     * @author Manaf Hijazi (manafhijazii@gmail.com)
+     * @Description method to call all applications logs from logger services
+     */
     const getAllApplicationsLogs = useCallback(async () => {
         setIsApplicationsLoading(true);
 

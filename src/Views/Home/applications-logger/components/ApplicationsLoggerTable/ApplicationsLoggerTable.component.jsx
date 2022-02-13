@@ -12,7 +12,15 @@ import {
 import {Pagination, Skeleton} from "@mui/lab";
 import './ApplicationsLoggerTable.style.scss';
 
+/**
+ * @author Manaf Hijazi (manafhijazii@gmail.com)
+ * @Description A component to handle the table header sorting
+ */
 const EnhancedTableHead = ({order, orderBy, onRequestSort, columns}) => {
+    /**
+     * @author Manaf Hijazi (manafhijazii@gmail.com)
+     * @Description A method to handle the sort data to the parent
+     */
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -59,16 +67,28 @@ export const ApplicationsLoggerTable = ({data, totalCount, isApplicationsLoading
         {key: 5, label: 'Date : Time', dataKey: 'creationTimestamp'},
     ]);
 
+    /**
+     * @author Manaf Hijazi (manafhijazii@gmail.com)
+     * @Description A method to handle the page change from the pagination component
+     */
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
+    /**
+     * @author Manaf Hijazi (manafhijazii@gmail.com)
+     * @Description A method to handle the received data from the header child component and calculates the order
+     */
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
 
+    /**
+     * @author Manaf Hijazi (manafhijazii@gmail.com)
+     * @Description A method to compare between the order of the items
+     */
     const descendingComparator = (firstItem, secondItem, orderBy) => {
         if (secondItem[orderBy] < firstItem[orderBy]) return -1;
         if (secondItem[orderBy] > firstItem[orderBy]) return 1;
@@ -76,8 +96,11 @@ export const ApplicationsLoggerTable = ({data, totalCount, isApplicationsLoading
         return 0;
     };
 
-    // This method is created for cross-browser compatibility, if you don't
-    // need to support IE11, you can use Array.prototype.sort() directly
+    /**
+     * @author Manaf Hijazi (manafhijazii@gmail.com)
+     * @Description This method is created for cross-browser compatibility, if you don't
+     * need to support IE11, you can use Array.prototype.sort() directly
+     */
     const stableSort = (array, comparator) => {
         const stabilizedThis = array.map((el, index) => [el, index]);
 

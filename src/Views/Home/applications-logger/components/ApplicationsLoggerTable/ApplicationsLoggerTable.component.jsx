@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import PropTypes from 'prop-types';
 import {
     Table,
@@ -7,7 +7,6 @@ import {
     TableHead,
     TableCell,
     TableSortLabel,
-    TablePagination
 } from "@mui/material";
 import {Pagination, Skeleton} from "@mui/lab";
 import './ApplicationsLoggerTable.style.scss';
@@ -53,7 +52,7 @@ EnhancedTableHead.propTypes = {
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
 };
 
-export const ApplicationsLoggerTable = ({data, totalCount, isApplicationsLoading}) => {
+export const ApplicationsLoggerTable = ({data, totalCount, isApplicationsLoading, getFilteredDataHandler}) => {
     const [orderBy, setOrderBy] = useState('logId');
     const [order, setOrder] = useState('asc');
     const [page, setPage] = useState(1);
@@ -135,7 +134,7 @@ export const ApplicationsLoggerTable = ({data, totalCount, isApplicationsLoading
                         data &&
                         stableSort(data, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => (
+                            .map((row, index) => getFilteredDataHandler(row) && (
                                 <TableRow hover tabIndex={-1} key={`${row.logId}-${index + 1}`}>
                                     {columns.map((column) => {
                                         const value =
@@ -152,9 +151,9 @@ export const ApplicationsLoggerTable = ({data, totalCount, isApplicationsLoading
                 </TableBody>
             </Table>
             {isApplicationsLoading &&
-                Array.from({ length: 10 }).map(() => <Skeleton variant="rect"/>)
+                Array.from({length: 10}).map(() => <Skeleton variant="rect"/>)
             }
-            <Pagination count={((totalCount / rowsPerPage) - 1) || 0} page={page || 0} onChange={handleChangePage} />
+            <Pagination count={((totalCount / rowsPerPage) - 1) || 0} page={page || 0} onChange={handleChangePage}/>
         </div>
     );
 };
@@ -163,5 +162,6 @@ ApplicationsLoggerTable.propTypes = {
     totalCount: PropTypes.number.isRequired,
     data: PropTypes.instanceOf(Array).isRequired,
     isApplicationsLoading: PropTypes.bool.isRequired,
+    getFilteredDataHandler: PropTypes.func.isRequired,
 };
 

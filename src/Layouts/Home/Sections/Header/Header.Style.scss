@@ -1,10 +1,12 @@
 @import '../../../../Assets/Styles/Helpers/Helpers.Style.scss';
 
 .header-wrapper {
-  width: 100%;
-  padding: 1.5rem;
-  position: fixed;
   top: 0;
+  z-index: 9;
+  width: 100%;
+  position: fixed;
+  padding: 1.5rem 2rem 0;
+  background-color: $c-white;
 
   hr {
     margin-top: 1rem;

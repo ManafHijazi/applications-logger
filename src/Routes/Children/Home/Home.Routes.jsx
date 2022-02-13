@@ -1,20 +1,20 @@
 import loadable from '@loadable/component';
 
-const CoursesSchedules = loadable(() => import('../../../Views/Home/applications-logger/ApplicationsLogger.View'));
+const ApplicationsView = loadable(() => import('../../../Views/Home/applications-logger/ApplicationsLogger.View'));
 
 export const HomeRoutes = [
   {
     id: 1,
-    path: '/applications-logger',
-    name: 'Shared:self-service',
-    component: CoursesSchedules,
+    path: '/administration/applications-logger',
+    name: 'applications-logger',
+    component: ApplicationsView,
     layout: '/home',
     default: true,
     isExact: true,
     isRoute: true,
     authorize: true,
     roles: [],
-    icon: 'mdi mdi-notebook-check-outline',
+    icon: 'mdi mdi-log',
     isDisabled: false,
     children: [],
   },

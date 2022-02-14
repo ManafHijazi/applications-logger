@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {
     Table,
@@ -52,7 +52,7 @@ EnhancedTableHead.propTypes = {
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
 };
 
-export const ApplicationsLoggerTable = ({data, totalCount, isApplicationsLoading, getFilteredDataHandler}) => {
+export const ApplicationsLoggerTable = ({data, isApplicationsLoading, getFilteredDataHandler, filterValue}) => {
     const [orderBy, setOrderBy] = useState('logId');
     const [order, setOrder] = useState('asc');
     const [page, setPage] = useState(1);
@@ -133,8 +133,9 @@ export const ApplicationsLoggerTable = ({data, totalCount, isApplicationsLoading
                     {!isApplicationsLoading &&
                         data &&
                         stableSort(data, getComparator(order, orderBy))
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => getFilteredDataHandler(row) && (
+                            .slice(page * rowsPerPage, page * rowsPerPage + (rowsPerPage + filterValue))
+                            .filter(row => getFilteredDataHandler(row))
+                            .map((row, index) => (
                                 <TableRow hover tabIndex={-1} key={`${row.logId}-${index + 1}`}>
                                     {columns.map((column) => {
                                         const value =
@@ -153,13 +154,19 @@ export const ApplicationsLoggerTable = ({data, totalCount, isApplicationsLoading
             {isApplicationsLoading &&
                 Array.from({length: 10}).map(() => <Skeleton variant="rect"/>)
             }
-            <Pagination count={((totalCount / rowsPerPage) - 1) || 0} page={page || 0} onChange={handleChangePage}/>
+            {!filterValue &&
+                <Pagination
+                    page={page || 0}
+                    onChange={handleChangePage}
+                    count={((data.filter(row => getFilteredDataHandler(row)).length / rowsPerPage) - 1).toFixed() || 0}
+                />
+            }
         </div>
     );
 };
 
 ApplicationsLoggerTable.propTypes = {
-    totalCount: PropTypes.number.isRequired,
+    filterValue: PropTypes.number.isRequired,
     data: PropTypes.instanceOf(Array).isRequired,
     isApplicationsLoading: PropTypes.bool.isRequired,
     getFilteredDataHandler: PropTypes.func.isRequired,

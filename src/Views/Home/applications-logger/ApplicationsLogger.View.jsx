@@ -7,6 +7,7 @@ import './ApplicationsLogger.Style.scss'
 const ApplicationsLoggerView = () => {
     const [isApplicationsLoading, setIsApplicationsLoading] = useState(false);
     const [applicationsFilter, setApplicationsFilter] = useState({});
+    const [filterValue, setFilterValue] = useState(0);
     const [applications, setApplications] = useState({
         totalCount: 0,
         result: []
@@ -60,12 +61,14 @@ const ApplicationsLoggerView = () => {
         const filledData = Object.entries(applicationsFilter).filter((item) => item[1]);
 
         if (filledData.length > 0) {
+            setFilterValue(100);
+
             return Object.entries(row)
                 .some((item) =>
                     filledData.some((el) => {
                         return (
                             ((el[1].dataKey === item[0]) && item[1]) &&
-                            (el[1].isDate ? getDateCondition(el[1], item[1], row) : `${item[1] || ''}`.toLowerCase() === (`${el[1].value || ''}`.toLowerCase()))
+                            (el[1].isDate ? getDateCondition(el[1], item[1], row) : (`${item[1] || ''}`.toLowerCase() === (`${el[1].value || ''}`.toLowerCase())))
                         )
                     })
                 )
@@ -78,6 +81,10 @@ const ApplicationsLoggerView = () => {
         setApplicationsFilter(newValue);
     };
 
+    const onFilterValueChangeHandler = (newValue) => {
+        setFilterValue(newValue);
+    };
+
     useEffect(() => {
         getAllApplicationsLogs();
     }, [getAllApplicationsLogs]);
@@ -87,10 +94,11 @@ const ApplicationsLoggerView = () => {
             <ApplicationsLoggerTableFilter
                 applicationsFilter={applicationsFilter}
                 onFilterChangeHandler={onFilterChangeHandler}
+                onFilterValueChangeHandler={onFilterValueChangeHandler}
             />
             <ApplicationsLoggerTable
+                filterValue={filterValue}
                 data={applications.result}
-                totalCount={applications.totalCount}
                 isApplicationsLoading={isApplicationsLoading}
                 getFilteredDataHandler={getFilteredDataHandler}
             />
